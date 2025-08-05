@@ -1,0 +1,353 @@
+/* 复古电脑风格的全局样式 */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    color: #00ff41;
+    /* 移动端优化 */
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+#app {
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+}
+
+/* 复古按钮样式 */
+.retro-button {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    padding: 12px 20px;
+    border: 3px solid #000;
+    background: linear-gradient(145deg, #ff69b4, #ff1493);
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    box-shadow: 4px 4px 0px #000;
+    position: relative;
+}
+
+.retro-button:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000;
+}
+
+.retro-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000;
+}
+
+/* 复古面板样式 */
+.retro-panel {
+    background: #fff;
+    border: 4px solid #000;
+    box-shadow: 8px 8px 0px #000;
+    padding: 20px;
+    margin: 10px;
+}
+
+/* 复古输入框样式 */
+.retro-input {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 10px;
+    padding: 10px;
+    border: 3px solid #000;
+    background: #fff;
+    width: 100%;
+    box-shadow: inset 2px 2px 0px #ccc;
+}
+
+.retro-input:focus {
+    outline: none;
+    box-shadow: inset 2px 2px 0px #999;
+}
+
+/* 复古标题样式 */
+.retro-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 24px;
+    color: #fff;
+    text-shadow: 3px 3px 0px #000;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 复古卡片样式 */
+.retro-card {
+    background: #f0f0f0;
+    border: 3px solid #000;
+    box-shadow: 4px 4px 0px #000;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+/* 进度条样式 */
+.retro-progress {
+    width: 100%;
+    height: 20px;
+    background: #fff;
+    border: 2px solid #000;
+    position: relative;
+    overflow: hidden;
+}
+
+.retro-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff00, #32cd32);
+    transition: width 0.3s ease;
+    border-right: 2px solid #000;
+}
+
+/* 动画效果 */
+@keyframes pixelPulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.pixel-pulse {
+    animation: pixelPulse 2s infinite;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .retro-title {
+        font-size: 18px;
+    }
+
+    .retro-button {
+        font-size: 10px;
+        padding: 10px 16px;
+    }
+
+    .retro-panel {
+        padding: 15px;
+        margin: 5px;
+    }
+}
+
+/* 复古电脑特效 */
+@keyframes screen-flicker {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    98% {
+        opacity: 0.98;
+    }
+    99% {
+        opacity: 0.99;
+    }
+}
+
+@keyframes crt-glow {
+    0%,
+    100% {
+        text-shadow: 0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 15px #00ff41;
+    }
+    50% {
+        text-shadow: 0 0 3px #00ff41, 0 0 8px #00ff41, 0 0 12px #00ff41;
+    }
+}
+
+/* CRT屏幕效果 */
+.screen-container {
+    animation: screen-flicker 0.15s infinite linear alternate;
+}
+
+.screen-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%), linear-gradient(90deg, transparent 50%, rgba(0, 255, 65, 0.03) 50%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* 终端文字发光效果 */
+.terminal-title,
+.message-content,
+.terminal-prompt {
+    animation: crt-glow 2s ease-in-out infinite alternate;
+}
+
+/* 复古按钮样式更新 */
+.retro-button {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 8px 16px;
+    border: 2px solid #00ff41;
+    background: linear-gradient(145deg, #001100, #002200);
+    color: #00ff41;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3), inset 0 0 10px rgba(0, 255, 65, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.retro-button:hover {
+    background: linear-gradient(145deg, #002200, #003300);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.5), inset 0 0 20px rgba(0, 255, 65, 0.2);
+    text-shadow: 0 0 10px #00ff41;
+}
+
+.retro-button:active {
+    transform: scale(0.98);
+}
+
+/* 复古面板样式更新 */
+.retro-panel {
+    background: linear-gradient(145deg, #001100, #002200);
+    border: 2px solid #00ff41;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3), inset 0 0 20px rgba(0, 255, 65, 0.1);
+    padding: 15px;
+    margin: 10px;
+    position: relative;
+}
+
+.retro-panel::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ff41, #00cc33, #00ff41);
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0.3;
+}
+
+/* 复古输入框样式更新 */
+.retro-input {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    padding: 10px;
+    border: 2px solid #00ff41;
+    background: #001100;
+    color: #00ff41;
+    width: 100%;
+    box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.2), 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.retro-input:focus {
+    outline: none;
+    box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.3), 0 0 20px rgba(0, 255, 65, 0.5);
+    text-shadow: 0 0 5px #00ff41;
+}
+
+/* 选择文本颜色 */
+::selection {
+    background: #00ff41;
+    color: #000;
+}
+
+::-moz-selection {
+    background: #00ff41;
+    color: #000;
+}
+/* 移动端专用样式 */
+@media (max-width: 768px) {
+    /* 防止移动端缩放 */
+    input,
+    textarea,
+    select {
+        font-size: 16px !important;
+        -webkit-appearance: none;
+        border-radius: 0;
+    }
+
+    /* 移动端按钮优化 */
+    button {
+        min-height: 44px;
+        min-width: 44px;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* 滚动优化 */
+    * {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* 高DPI屏幕优化 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .terminal-title,
+    .message-content,
+    .terminal-prompt {
+        text-shadow: 0 0 2px #00ff41, 0 0 4px #00ff41, 0 0 6px #00ff41;
+    }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+    .mode-option:hover,
+    .number-key:hover,
+    .game-action-btn:hover {
+        transform: none;
+    }
+
+    .mode-option:active,
+    .number-key:active,
+    .game-action-btn:active {
+        transform: scale(0.95);
+        transition: transform 0.1s;
+    }
+}
+
+/* 安全区域适配（刘海屏等） */
+@supports (padding: max(0px)) {
+    .retro-computer {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+        padding-top: max(20px, env(safe-area-inset-top));
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+    /* 已经是深色主题，无需额外适配 */
+}
+
+/* 减少动画（用户偏好） */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .scanlines,
+    .screen-container {
+        animation: none !important;
+    }
+}

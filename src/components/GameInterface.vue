@@ -155,7 +155,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, watch } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useChatStore } from '@/stores/chat'
 import { GAME_MODES } from '@/config/gameMode'
 import type { GameMode } from '@/config/gameMode'
@@ -179,17 +179,58 @@ const getCurrentInput = () => {
 // 获取输入框占位符
 const getInputPlaceholder = () => {
     if (!chatStore.currentGameMode) return '请先选择游戏模式...'
-    return '输入你的消息...'
+    if (chatStore.isLoading) return 'AI正在思考中...'
+    return '输入你的选择...'
 }
 
 // 初始化
 onMounted(() => {
     chatStore.initClient()
-    // 自动聚焦输入框
-    const currentInput = getCurrentInput()
-    if (currentInput) {
-        currentInput.focus()
+
+    // 添加全局键盘事件监听，当用户开始输入时自动聚焦
+    const handleKeyPress = (event: KeyboardEvent) => {
+        // 只在游戏模式下且不在加载状态时处理
+        if (!chatStore.currentGameMode || chatStore.isLoading) return
+
+        // 如果用户按下可打印字符且当前没有聚焦在输入框上
+        if (event.key.length === 1 && !/[A-Z]/.test(event.key)) {
+            const currentInput = getCurrentInput()
+            const activeElement = document.activeElement
+
+            // 确保当前焦点不在输入框上，且不是其他可编辑元素
+            if (currentInput && activeElement !== currentInput && activeElement?.tagName !== 'INPUT' && activeElement?.tagName !== 'TEXTAREA') {
+                event.preventDefault()
+                currentInput.focus()
+                // 将按键添加到输入框中
+                userInput.value += event.key
+            }
+        }
     }
+
+    document.addEventListener('keypress', handleKeyPress)
+
+    // 添加点击屏幕聚焦功能（主要用于移动端）
+    const handleScreenClick = (event: MouseEvent) => {
+        // 只在游戏模式下且不在加载状态时处理
+        if (!chatStore.currentGameMode || chatStore.isLoading) return
+
+        const target = event.target as HTMLElement
+        // 如果点击的不是按钮、链接或其他交互元素
+        if (!target.closest('button') && !target.closest('input') && !target.closest('a') && !target.closest('.mode-option')) {
+            const currentInput = getCurrentInput()
+            if (currentInput && isMobile()) {
+                currentInput.focus()
+            }
+        }
+    }
+
+    document.addEventListener('click', handleScreenClick)
+
+    // 清理事件监听器
+    onUnmounted(() => {
+        document.removeEventListener('keypress', handleKeyPress)
+        document.removeEventListener('click', handleScreenClick)
+    })
 })
 
 // 选择游戏模式
@@ -199,12 +240,7 @@ const selectGameMode = async (mode: GameMode) => {
     // 自动发送"开始游戏"消息
     await chatStore.sendMessage('开始游戏')
 
-    nextTick(() => {
-        const currentInput = getCurrentInput()
-        if (currentInput) {
-            currentInput.focus()
-        }
-    })
+    // 移除自动聚焦，让用户先阅读游戏开始的介绍
 }
 
 // 返回模式选择
@@ -222,11 +258,8 @@ const handleSendMessage = async () => {
 
     await chatStore.sendMessage(message)
 
-    // 保持输入框聚焦
-    const currentInput = getCurrentInput()
-    if (currentInput) {
-        currentInput.focus()
-    }
+    // 移除自动聚焦，让用户有时间阅读AI回复
+    // 用户可以手动点击输入框或按任意键来重新聚焦
 }
 
 // 滚动到底部
